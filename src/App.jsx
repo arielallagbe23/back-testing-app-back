@@ -10,7 +10,7 @@ import Navbar from './Components/Navbar.jsx'
 import Home from './Components/Home.jsx';
 import Login from './Components/Login.jsx'
 import Register from './Components/Register.jsx'
-import Session from './Components/Session'
+import SessionLogin from './Components/SessionLogin'
 
 function App() {
 
@@ -22,7 +22,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/session" element={<Session />} />
+        <Route path="/sessionLogin" element={<SessionLogin />} />
       </Routes>
     </div>
   );

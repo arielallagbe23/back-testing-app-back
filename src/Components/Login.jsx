@@ -46,7 +46,7 @@ const Login = () => {
     
     useEffect(() => {
       if (navigateFlag) {
-        navigate('/session'); // Effectue la navigation
+        navigate('/sessionLogin'); // Effectue la navigation
         console.log('Redirection vers userlogin effectuée.');
         window.location.reload(); // Recharge la page après la navigation
       }
