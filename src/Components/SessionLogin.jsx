@@ -6,21 +6,21 @@ const SessionLogin = () => {
   const [trades, setTrades] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [tradesPerPage] = useState(12);
+  const [tradesPerPage] = useState(10);
   const [tradesWithDuration, setTradesWithDuration] = useState([]);
 
   const calculateDuration = (date_entree, date_sortie) => {
     const entryDate = moment(date_entree);
     const exitDate = moment(date_sortie);
     const duration = moment.duration(exitDate.diff(entryDate));
-  
+
     const years = duration.years();
     const months = duration.months();
     const days = duration.days();
     const hours = duration.hours();
     const minutes = duration.minutes();
     const formattedDuration = [];
-  
+
     if (years > 0) {
       formattedDuration.push(`${years} ${years === 1 ? "year" : "years"}`);
     }
@@ -38,7 +38,7 @@ const SessionLogin = () => {
         `${minutes} ${minutes === 1 ? "minute" : "minutes"}`
       );
     }
-  
+
     return formattedDuration.join(", ");
   };
 
@@ -52,18 +52,16 @@ const SessionLogin = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (response.ok) {
           const data = await response.json();
-  
+
           const tradesWithDuration = data.map((trade) => ({
             ...trade,
             duration: calculateDuration(trade.date_entree, trade.date_sortie),
           }));
-  
-          console.log(tradesWithDuration);
-  
-          setTradesWithDuration(tradesWithDuration);
+
+          setTrades(tradesWithDuration);
         } else {
           console.error(`Erreur HTTP! Statut: ${response.status}`);
         }
@@ -73,12 +71,11 @@ const SessionLogin = () => {
         setIsLoading(false);
       }
     };
-  
+
     fetchTrades();
   }, []);
-  
-  const pageCount = Math.ceil(tradesWithDuration.length / tradesPerPage);
 
+  const pageCount = Math.ceil(trades.length / tradesPerPage);
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
@@ -91,14 +88,14 @@ const SessionLogin = () => {
 
   const getRowClassName = (resultat) => {
     switch (resultat) {
-      case 'SL':
-        return 'sl-row';
-      case 'TP':
-        return 'tp-row';
-      case 'BE':
-        return 'be-row';
+      case "SL":
+        return "sl-row";
+      case "TP":
+        return "tp-row";
+      case "BE":
+        return "be-row";
       default:
-        return '';
+        return "";
     }
   };
 
@@ -106,6 +103,12 @@ const SessionLogin = () => {
     <div className="grand-div">
       <div className="sub-navbar">
         <div className="button-demarrer-session">Demarrer une session</div>
+      </div>
+
+      <div className="grand-div-form">
+        <div className="form-trade-1"></div>
+        <div className="form-trade-2"></div>
+        <div className="form-trade-3"></div>
       </div>
 
       <div className="table-trade">

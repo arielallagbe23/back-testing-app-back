@@ -22,7 +22,6 @@ const calculateDuration = (date_entree, date_sortie) => {
   const entryDate = moment(date_entree);
   const exitDate = moment(date_sortie);
   const duration = moment.duration(exitDate.diff(entryDate));
-
   const years = duration.years();
   const months = duration.months();
   const days = duration.days();
