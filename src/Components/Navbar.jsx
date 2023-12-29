@@ -84,7 +84,7 @@ function Navbar() {
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
                     <a
-                      href="/session"
+                      href="/sessionLogin"
                       className="list-group-item list-group-item-action"
                       onClick={closeMenu}
                     >

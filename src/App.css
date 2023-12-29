@@ -414,6 +414,7 @@
   border: 5px solid #073763;
   border-collapse: separate;
   border-spacing: 0;
+  max-width: 1400px;
 }
 
 .table-trade th 
@@ -425,19 +426,74 @@
 
 .table-trade td 
 {
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 15px;
   text-align: center;
   vertical-align: middle;
 }
+
+
+.table-trade tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 25px;
+}
+
+.table-trade tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 25px;
+}
+
 
 .centered-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 800px; /* Ajustez la valeur en fonction de la largeur souhaitée */
+  width: auto;
   margin: 0 auto;
-  margin-top: 25px;
+  margin-top: 50px;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination a {
+  color: #F1C232 !important;
+  background-color: #001f3f;
+  padding: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; 
+  border-radius: 9px;
+}
+
+
+.pagination .active {
+  color: #001f3f;
+  background-color: #F1C232;
+}
+
+.pagination a:hover {
+  color: #001f3f !important;
+  background-color: #F1C232; 
+}
+
+.table-trade tbody tr.sl-row {
+  background-color: #F4CCCC;
+  color: #990000;
+}
+
+.table-trade tbody tr.tp-row {
+  background-color: #ccffcc; 
+  color: #274E13;
+}
+
+.table-trade tbody tr.be-row {
+  background-color: #FFE599; 
+  color: #BF9000;
+}
+
+
+
 
 

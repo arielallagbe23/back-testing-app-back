@@ -1,11 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { PaginationControl } from "react-bootstrap-pagination-control";
+import ReactPaginate from "react-paginate";
+import moment from "moment";
 
 const SessionLogin = () => {
   const [trades, setTrades] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [tradesPerPage] = useState(12);
+  const [tradesWithDuration, setTradesWithDuration] = useState([]);
+
+  const calculateDuration = (date_entree, date_sortie) => {
+    const entryDate = moment(date_entree);
+    const exitDate = moment(date_sortie);
+    const duration = moment.duration(exitDate.diff(entryDate));
+  
+    const years = duration.years();
+    const months = duration.months();
+    const days = duration.days();
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+    const formattedDuration = [];
+  
+    if (years > 0) {
+      formattedDuration.push(`${years} ${years === 1 ? "year" : "years"}`);
+    }
+    if (months > 0) {
+      formattedDuration.push(`${months} ${months === 1 ? "month" : "months"}`);
+    }
+    if (days > 0) {
+      formattedDuration.push(`${days} ${days === 1 ? "day" : "days"}`);
+    }
+    if (hours > 0) {
+      formattedDuration.push(`${hours} ${hours === 1 ? "hour" : "hours"}`);
+    }
+    if (minutes > 0) {
+      formattedDuration.push(
+        `${minutes} ${minutes === 1 ? "minute" : "minutes"}`
+      );
+    }
+  
+    return formattedDuration.join(", ");
+  };
 
   useEffect(() => {
     const fetchTrades = async () => {
@@ -17,10 +52,18 @@ const SessionLogin = () => {
             "Content-Type": "application/json",
           },
         });
-
+  
         if (response.ok) {
           const data = await response.json();
-          setTrades(data);
+  
+          const tradesWithDuration = data.map((trade) => ({
+            ...trade,
+            duration: calculateDuration(trade.date_entree, trade.date_sortie),
+          }));
+  
+          console.log(tradesWithDuration);
+  
+          setTradesWithDuration(tradesWithDuration);
         } else {
           console.error(`Erreur HTTP! Statut: ${response.status}`);
         }
@@ -30,24 +73,41 @@ const SessionLogin = () => {
         setIsLoading(false);
       }
     };
-
+  
     fetchTrades();
   }, []);
+  
+  const pageCount = Math.ceil(tradesWithDuration.length / tradesPerPage);
 
-  // Calculer l'index de début et de fin pour la pagination
-  const indexOfLastTrade = currentPage * tradesPerPage;
-  const indexOfFirstTrade = indexOfLastTrade - tradesPerPage;
-  const currentTrades = trades.slice(indexOfFirstTrade, indexOfLastTrade);
 
-  // Fonction pour changer de page
-  const handlePageChange = (page) => setCurrentPage(page);
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const currentTrades = trades.slice(
+    (currentPage - 1) * tradesPerPage,
+    currentPage * tradesPerPage
+  );
+
+  const getRowClassName = (resultat) => {
+    switch (resultat) {
+      case 'SL':
+        return 'sl-row';
+      case 'TP':
+        return 'tp-row';
+      case 'BE':
+        return 'be-row';
+      default:
+        return '';
+    }
+  };
 
   return (
     <div className="grand-div">
       <div className="sub-navbar">
         <div className="button-demarrer-session">Demarrer une session</div>
       </div>
-  
+
       <div className="table-trade">
         {isLoading ? (
           <p>Chargement en cours...</p>
@@ -65,11 +125,12 @@ const SessionLogin = () => {
                 <th>Date Sortie</th>
                 <th>Sens</th>
                 <th>Type Situation</th>
+                <th>Durée</th>
               </tr>
             </thead>
             <tbody>
               {currentTrades.map((trade) => (
-                <tr key={trade.id}>
+                <tr key={trade.id} className={getRowClassName(trade.resultats)}>
                   <td>{trade.nom_actif}</td>
                   <td>{trade.timeframe}</td>
                   <td>{trade.PE}</td>
@@ -80,21 +141,25 @@ const SessionLogin = () => {
                   <td>{trade.date_sortie}</td>
                   <td>{trade.sens}</td>
                   <td>{trade.type_situation}</td>
+                  <td>{trade.duration}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
       </div>
-  
+
       <div className="centered-container">
-        <PaginationControl
-          page={currentPage}
-          between={4}
-          total={Math.ceil(trades.length / tradesPerPage)}
-          limit={1}
-          changePage={handlePageChange}
-          ellipsis={1}
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
         />
       </div>
     </div>
