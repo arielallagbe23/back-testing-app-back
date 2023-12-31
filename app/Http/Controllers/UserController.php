@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
 
+
+
 class UserController extends Controller
 {
     public function register(Request $request)
@@ -74,8 +76,6 @@ class UserController extends Controller
     }
 
 
-
-
     public function logout (Request $request) 
     {
         $request->user()->tokens->each(function ($token) {
@@ -111,9 +111,6 @@ class UserController extends Controller
     
         return response()->json($trades);
     }
-
-    
-
 
     public function allActifs()
     {
@@ -151,37 +148,13 @@ class UserController extends Controller
     }
 
 
-    public function createTrade(Request $request)
+    public function createTrade (Request $request)
     {
-        
         if (auth()->check()) {
-            
-            $request->validate([
-                'actif_id' => 'required|exists:actifs,id',
-                'strategie_id' => 'required|exists:strategies,id',
-                'timeframe_id' => 'required|exists:timeframes,id',
-                'date' => 'nullable|date',
-                'date_entree' => 'nullable|date',
-                'date_sortie' => 'nullable|date',
-                'PE' => 'required|string',
-                'TP' => 'required|string',
-                'SL' => 'required|string',
-                'sens' => 'required|string',
-                'type_ordre_id' => 'required|exists:type_ordres,id',
-                'risque' => 'required|string',
-                'profit' => 'required|string',
-                'status' => 'string',
-                'resultats' => 'required|string',
-                'situation_id' => 'required|exists:situations,id',
-                'nb_pip_echap_PE' => 'nullable|string',
-                'nb_pip_echap_TP' => 'nullable|string',
-            ]);
 
-            
             $trade = new Trade;
 
-            
-            $trade->user_id = auth()->id(); 
+            $trade->user_id = auth()->id();
             $trade->actif_id = $request->input('actif_id');
             $trade->strategie_id = $request->input('strategie_id');
             $trade->timeframe_id = $request->input('timeframe_id');
@@ -203,11 +176,11 @@ class UserController extends Controller
 
             $trade->save();
 
-
-            return response()->json(['message' => 'Trade créé avec succès', 'trade' => $trade], 201);
-        } else {
-            
-            return response()->json(['message' => 'Utilisateur non authentifié'], 401);
+            if ($trade->exists) {
+                return response()->json(['message' => 'Trade créé avec succès', 'trade' => $trade], 201);
+            } else {
+                return response()->json(['message' => 'Erreur lors de la création du trade'], 500);
+            }
         }
     }
 
