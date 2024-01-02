@@ -267,8 +267,10 @@ const AddTrade = ({ onTradeAdded, setLoading }) => {
 
           <div className="Rive-droite">
             <div className="date-entree-div">
-              <div className="date-entree">
+              <div>
                 <label>Date Entrée</label>
+              </div>
+              <div>
                 <input
                   type="datetime-local"
                   value={selectedDateEntree}
@@ -277,9 +279,11 @@ const AddTrade = ({ onTradeAdded, setLoading }) => {
               </div>
             </div>
 
-            <div className="date-entree-div">
-              <div className="date-sortie">
+            <div className="date-sortie-div">
+              <div>
                 <label>Date Sortie</label>
+              </div>
+              <div>
                 <input
                   type="datetime-local"
                   value={selectedDateSortie}
@@ -328,43 +332,58 @@ const AddTrade = ({ onTradeAdded, setLoading }) => {
             </div>
 
             <div className="situation">
-              <label>
-                echap_PE
-                <input
-                  type="text"
-                  value={selectedNbPipEchapPE}
-                  onChange={handleNbPipEchapPEChange}
-                />
-              </label>
-
-              <label>
-                echap_TP
-                <input
-                  type="text"
-                  value={selectedNbPipEchapTP}
-                  onChange={handleNbPipEchapTPChange}
-                />
-              </label>
+              <div>
+                <div>
+                  <label>echap_PE</label>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={selectedNbPipEchapPE}
+                    onChange={handleNbPipEchapPEChange}
+                  />
+                </div>
+              </div>
+              <div className="ECTP">
+                <div>
+                  <label>echap_TP</label>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={selectedNbPipEchapTP}
+                    onChange={handleNbPipEchapTPChange}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="RR">
-              <label>
-                Risque
-                <input
-                  type="text"
-                  value={selectedRisque}
-                  onChange={handleRisqueChange}
-                />
-              </label>
+              <div className="Risque">
+                <div>
+                  <label>Risque</label>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={selectedRisque}
+                    onChange={handleRisqueChange}
+                  />
+                </div>
+              </div>
 
-              <label>
-                Profit
-                <input
-                  type="text"
-                  value={selectedProfit}
-                  onChange={handleProfitChange}
-                />
-              </label>
+              <div className="Profit">
+                <div>
+                  <label>Profit</label>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={selectedProfit}
+                    onChange={handleProfitChange}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

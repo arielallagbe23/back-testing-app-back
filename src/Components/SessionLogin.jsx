@@ -57,6 +57,14 @@ const SessionLogin = () => {
   const [selectedTypeOrdre, setSelectedTypeOrdre] = useState("");
   const [selectedSituation, setSelectedSituation] = useState("");
   const [loading, setLoading] = useState(false); // Assurez-vous également de définir setLoading ici
+  const [additionalTrades, setAdditionalTrades] = useState([]);
+
+  const containerStyle = {
+    display: "flex", // Utilisation de Flexbox
+    flexWrap: "wrap", // Permet le passage à la ligne
+    justifyContent: "flex-start", // Aligne les éléments à gauche
+    gap: "20px", // Espacement horizontal entre les éléments
+  };
 
   const { css } = require("react-spinners");
 
@@ -152,13 +160,12 @@ const SessionLogin = () => {
   const pageCount = Math.ceil(trades.length / tradesPerPage);
 
   const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
+    setCurrentPage(selected + 1); // Ajoutez 1 pour décaler de 0-index à 1-index
   };
 
-  const currentTrades = trades.slice(
-    (currentPage - 1) * tradesPerPage,
-    currentPage * tradesPerPage
-  );
+  const startIndex = (currentPage - 1) * tradesPerPage;
+  const endIndex = startIndex + tradesPerPage;
+  const currentTrades = trades.slice(startIndex, endIndex);
 
   const getRowClassName = (resultat) => {
     switch (resultat) {
@@ -173,16 +180,38 @@ const SessionLogin = () => {
     }
   };
 
+  const handleAddTrade = () => {
+    setAdditionalTrades((prevTrades) => [
+      ...prevTrades,
+      <AddTrade
+        key={prevTrades.length}
+        onTradeAdded={handleTradeAdded}
+        setLoading={setLoading}
+      />,
+    ]);
+  };
+
   return (
     <div className="grand-div">
       <div className="sub-navbar">
         <div className="button-demarrer-session">Demarrer une session</div>
       </div>
-
+      <div onClick={handleAddTrade} className="add-div-trade-button">
+        +
+      </div>
       <div className="grand-div-form">
-        <AddTrade onTradeAdded={handleTradeAdded} setLoading={setLoading}/>
-        <AddTrade onTradeAdded={handleTradeAdded} setLoading={setLoading}/>
-        <AddTrade onTradeAdded={handleTradeAdded} setLoading={setLoading}/>
+        <AddTrade onTradeAdded={handleTradeAdded} setLoading={setLoading} />
+        <AddTrade onTradeAdded={handleTradeAdded} setLoading={setLoading} />
+        <AddTrade onTradeAdded={handleTradeAdded} setLoading={setLoading} />
+        {additionalTrades.map((tradeComponent, index) => (
+          <div
+            className="sous-form-add"
+            key={index}
+            style={{ marginBottom: "20px" }}
+          >
+            <AddTrade onTradeAdded={handleTradeAdded} setLoading={setLoading} />
+          </div>
+        ))}
       </div>
 
       <div className="table-trade">

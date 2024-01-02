@@ -24,7 +24,7 @@
     border-radius: 15px;
     background-color: #073763;
     color: #F1C232;
-    font-family: Chalkduster, fantasy;
+    font-family: 'Inter', sans-serif;
 }
 
 .Rive-droite
@@ -44,8 +44,14 @@
 {
     font-size: 13px;
 }
-  
-.date-entree input
+
+.date-entree-div
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.date-entree-div input
 {
     width: 150px;
     height: 30px;
@@ -54,17 +60,19 @@
     padding: 5px;
 }
 
-.date-entree label
+.date-entree-div label
 {
     font-size: 10px;
 }
 
-.date-sortie
+.date-sortie-div
 {
     margin-top: -17px;
+    display: flex;
+    flex-direction: column;
 }
 
-.date-sortie input
+.date-sortie-div input
 {
     width: 150px;
     height: 30px;
@@ -73,7 +81,7 @@
     padding: 5px;
 }
 
-.date-sortie label
+.date-sortie-div label
 {
     font-size: 10px;
 }
@@ -81,6 +89,8 @@
 .RR
 {
     display: flex;
+    margin-top: 0px;
+    margin-top: -16px;
 }
 
 .RR input 
@@ -99,7 +109,7 @@
 .situation
 {
     display: flex;
-    margin-top: -3px;
+    margin-top: -18px;
 }
 
 .situation input
@@ -113,6 +123,18 @@
 .situation label
 {
     font-size: 10px;
+}
+
+.ECTP
+{
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.Profit
+{
+    margin-left: auto;
+    margin-right: 10px; 
 }
 
 .PE 
@@ -192,7 +214,7 @@
     border-radius: 30px;
     color: #F1C232;
     margin-left: 10px;
-    font-family: Chalkduster, fantasy;
+    font-family: 'Inter', sans-serif;
     margin-left: auto;
     margin-right: auto;
 }
