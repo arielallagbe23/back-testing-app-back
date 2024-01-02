@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "../Api/axios";
+import axios from "axios";
 
-const AddTrade = () => {
+const AddTrade = ({ onTradeAdded, setLoading }) => {
   const fetchApiData = async (url, setterFunction) => {
     try {
       const response = await fetch(url, {
@@ -122,8 +122,10 @@ const AddTrade = () => {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    setLoading(true);
+    const startTime = Date.now(); // Enregistrez le temps de début
 
+    // Récupération des données du formulaire
     const tradeData = {
       date_entree: selectedDateEntree,
       date_sortie: selectedDateSortie,
@@ -143,14 +145,15 @@ const AddTrade = () => {
       nbPipEchapTP: selectedNbPipEchapTP,
     };
 
+    // Obtention du token
     const response = await axios.get(
       "http://localhost:8000/api/get-token-cookie",
       { withCredentials: true }
     );
     const tokenFromCookie = response.data.token;
-    console.log(tokenFromCookie);
 
     try {
+      // Envoi de la requête pour créer le trade
       const config = {
         method: "post",
         url: "http://127.0.0.1:8000/api/create-trade",
@@ -164,9 +167,12 @@ const AddTrade = () => {
 
       const response = await axios(config);
 
+      // Traitement de la réponse
       if (response.status === 201) {
         const responseData = response.data;
         console.log("Trade ajouté avec succès !");
+        onTradeAdded(responseData);
+        // Réinitialisation des champs du formulaire
         setSelectedDateEntree("");
         setSelectedDateSortie("");
         setSelectedStrategie("");
@@ -187,6 +193,11 @@ const AddTrade = () => {
       }
     } catch (error) {
       console.error("Erreur lors de l'ajout du trade:", error);
+    } finally {
+      // Délai de 5 secondes avant de désactiver le chargement
+      setTimeout(() => {
+        setLoading(false); // Désactivation du chargement après la requête
+      }, 5000);
     }
   };
 
@@ -195,7 +206,6 @@ const AddTrade = () => {
       <form onSubmit={handleSubmit}>
         <div className="seine">
           <div className="Rive-gauche">
-
             <select value={selectedActif} onChange={handleActifChange}>
               <option value="">Actif</option>
               {actifs.map((actif) => (
@@ -225,15 +235,15 @@ const AddTrade = () => {
 
             <select value={selectedSens} onChange={handleSensChange}>
               <option value="">Sens</option>
-              <option value="SELL">SHORT</option>
-              <option value="BUY">LONG</option>
+              <option value="SHORT">SHORT</option>
+              <option value="LONG">LONG</option>
             </select>
 
             <select value={selectedResultats} onChange={handleResultatsChange}>
               <option value="">Résultat</option>
-              <option value="SL">SL</option>
               <option value="TP">TP</option>
               <option value="BE">BE</option>
+              <option value="SL">SL</option>
             </select>
 
             <select value={selectedSituation} onChange={handleSituationChange}>
