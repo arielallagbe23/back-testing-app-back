@@ -1,13 +1,52 @@
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import moment from "moment";
+import AddTrade from "./AddTrade";
+import '../App.css';
+import './AddTrade.css'
+
 
 const SessionLogin = () => {
   const [trades, setTrades] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [tradesPerPage] = useState(10);
-  const [tradesWithDuration, setTradesWithDuration] = useState([]);
+  const [selectedActif, setSelectedActif] = useState("");
+  const [selectedStrategie, setSelectedStrategie] = useState("");
+  const [selectedTimeframe, setSelectedTimeframe] = useState("");
+  const [selectedTypeOrdre, setSelectedTypeOrdre] = useState("");
+  const [selectedSituation, setSelectedSituation] = useState("");
+
+  const handleActifChange = (e) => {
+    setSelectedActif(e.target.value);
+  };
+
+  const handleStrategieChange = (e) => {
+    setSelectedStrategie(e.target.value);
+  };
+
+  const handleTimeframeChange = (e) => {
+    setSelectedTimeframe(e.target.value);
+  };
+
+  const handleTypeOrdreChange = (e) => {
+    setSelectedTypeOrdre(e.target.value);
+  };
+
+  const handleSituationChange = (e) => {
+    setSelectedSituation(e.target.value);
+  };
+
+  // Fonction pour gérer la soumission du formulaire
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Ajoutez ici la logique pour traiter les données du formulaire
+    console.log("Actif sélectionné :", selectedActif);
+    console.log("Stratégie sélectionnée :", selectedStrategie);
+    console.log("Timeframe sélectionné :", selectedTimeframe);
+    console.log("Type d'Ordre sélectionné :", selectedTypeOrdre);
+    console.log("Situation sélectionnée :", selectedSituation);
+  };
 
   const calculateDuration = (date_entree, date_sortie) => {
     const entryDate = moment(date_entree);
@@ -106,9 +145,9 @@ const SessionLogin = () => {
       </div>
 
       <div className="grand-div-form">
-        <div className="form-trade-1"></div>
-        <div className="form-trade-2"></div>
-        <div className="form-trade-3"></div>
+        <AddTrade />
+        <AddTrade />
+        <AddTrade />
       </div>
 
       <div className="table-trade">

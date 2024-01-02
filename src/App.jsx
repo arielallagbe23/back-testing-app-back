@@ -11,6 +11,7 @@ import Home from './Components/Home.jsx';
 import Login from './Components/Login.jsx'
 import Register from './Components/Register.jsx'
 import SessionLogin from './Components/SessionLogin'
+import AddTrade from './Components/AddTrade';
 
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/sessionLogin" element={<SessionLogin />} />
+      <Route path="/addTrade" element={<AddTrade />} />
+
       </Routes>
     </div>
   );

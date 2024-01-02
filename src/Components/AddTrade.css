@@ -1,0 +1,199 @@
+/*Add Trade*/
+.seine 
+{
+    display: flex;
+}
+
+.Rive-gauche
+{
+    width: 130px;
+    height: 380px; 
+    display: flex;
+    flex-direction: column;
+    margin-top: 23px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.Rive-gauche select {
+    margin-bottom: 25px;
+    font-size: 13px;
+    width: 110px;
+    height: 30px;
+    text-align: center;
+    border-radius: 15px;
+    background-color: #073763;
+    color: #F1C232;
+    font-family: Chalkduster, fantasy;
+}
+
+.Rive-droite
+{
+    width: 160px;
+    height: 380px;
+}
+
+.Rive-droite input 
+{
+    font-size: 13px;
+    width: 75px;
+    margin-bottom: 15px;
+}
+
+.Rive-droite label
+{
+    font-size: 13px;
+}
+  
+.date-entree input
+{
+    width: 150px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #073763;
+    padding: 5px;
+}
+
+.date-entree label
+{
+    font-size: 10px;
+}
+
+.date-sortie
+{
+    margin-top: -17px;
+}
+
+.date-sortie input
+{
+    width: 150px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #073763;
+    padding: 5px;
+}
+
+.date-sortie label
+{
+    font-size: 10px;
+}
+
+.RR
+{
+    display: flex;
+}
+
+.RR input 
+{
+    width: 70px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #073763;
+}
+
+.RR label
+{
+    font-size: 10px;
+}
+
+.situation
+{
+    display: flex;
+    margin-top: -3px;
+}
+
+.situation input
+{
+    width: 70px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #073763;
+}
+
+.situation label
+{
+    font-size: 10px;
+}
+
+.PE 
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: -10px;
+}
+
+.PE input
+{
+    width: 150px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #073763;
+
+}
+
+.PE label 
+{
+    font-size: 10px;
+}
+
+.SL
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: -18px;
+
+}
+
+.SL input
+{
+    width: 150px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #073763;
+
+}
+
+.SL label 
+{
+    font-size: 10px;
+}
+
+.TP
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: -12px;
+
+}
+
+.TP input
+{
+    width: 150px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #073763;
+
+}
+
+.TP label 
+{
+    font-size: 10px;
+}
+
+.create-trade-button 
+{
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    background-color: #073763;
+    height: 40px;
+    border-radius: 30px;
+    color: #F1C232;
+    margin-left: 10px;
+    font-family: Chalkduster, fantasy;
+    margin-left: auto;
+    margin-right: auto;
+}
+/*Fin Add Trade*/
