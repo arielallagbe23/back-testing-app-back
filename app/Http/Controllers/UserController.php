@@ -22,6 +22,7 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
+    
     public function register(Request $request)
     {
         return User::create([
@@ -47,7 +48,8 @@ class UserController extends Controller
         $cookie = cookie('jwt', $token, 60 * 24); // 1 day token
         
         return response([
-            'message' => $token
+            'message' => 'Login successful!',
+            'token' => $token
         ])->withCookie($cookie);
     }
 
@@ -104,7 +106,6 @@ class UserController extends Controller
                 ->get();
 
 
-    
         if ($trades->isEmpty()) {
             return response()->json(['message' => 'Aucun trade trouvé pour cet utilisateur'], 404);
         }
@@ -150,11 +151,17 @@ class UserController extends Controller
 
     public function createTrade (Request $request)
     {
-        if (auth()->check()) {
+        $user = Auth()->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Utilisateur non authentifié'], 401);
+        }
+
+        if ($user) {
 
             $trade = new Trade;
 
-            $trade->user_id = auth()->id();
+            $trade->user_id = $user->id;
             $trade->actif_id = $request->input('actif_id');
             $trade->strategie_id = $request->input('strategie_id');
             $trade->timeframe_id = $request->input('timeframe_id');
@@ -243,10 +250,32 @@ class UserController extends Controller
 
     public function getTotalProfit()
     {
-        $totalProfit = Trade::calculateTotalProfit();
-
-        return response()->json(['totalProfit' => $totalProfit]);
+        try {
+            $user = Auth::user();
+    
+            if (!$user) {
+                return response()->json(['message' => 'Utilisateur non authentifié'], 401);
+            }
+    
+            $totalProfit = $user->trades()->sum(function ($trade) {
+                if ($trade->resultats === 'SL') {
+                    // Soustraire le risque si le résultat est 'SL'
+                    return -$trade->risque;
+                } elseif ($trade->resultats === 'TP') {
+                    // Ajouter le profit si le résultat est 'TP'
+                    return $trade->profit;
+                }
+    
+                // Aucun ajustement si le résultat n'est ni 'SL' ni 'TP'
+                return 0;
+            });
+    
+            return response()->json(['totalProfit' => $totalProfit], 200);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => 'Erreur lors de la récupération des profits'], 500);
+        }
     }
+    
     
 
     

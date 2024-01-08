@@ -35,6 +35,14 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::post('create-trade', [UserController::class,'createTrade']);
 
+    Route::get('/get-token-cookie', function () {
+        return response()->json([
+            'token' => request()->cookie('jwt'),
+        ]);
+    });
+
+    Route::get('total-profit',[UserController::class,'getTotalProfit']);
+    
 });
 
 Route::get('all-Actifs', [UserController::class,'allActifs']);
@@ -55,7 +63,7 @@ Route::get('all-type-ordres', [UserController::class,'allTypeOrdres']);
 
 Route::post('add-type-ordres',[UserController::class,'addTypeOrdre']);
 
-Route::get('total-profit',[UserController::class,'getTotalProfit']);
+
 
 
 
